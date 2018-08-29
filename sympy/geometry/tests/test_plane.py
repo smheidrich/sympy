@@ -95,6 +95,7 @@ def test_plane():
     assert pl6.distance(pl6.p1) == 0
     assert pl7.distance(pl6) == 0
     assert pl7.distance(l1) == 0
+    assert pl6.distance(Line3D(Point3D(2, 3, 1), Point3D(1, 3, 4))) == 0
     assert pl6.distance(Segment3D(Point3D(2, 3, 1), Point3D(1, 3, 4))) == 4*sqrt(3)/3
     pl6.distance(Plane(Point3D(5, 5, 5), normal_vector=(8, 8, 8))) == sqrt(3)
 
@@ -158,10 +159,11 @@ def test_plane():
         Point3D(2, 8/3, 10/3)]
     assert pl3.intersection(Plane(Point3D(6, 0, 0), normal_vector=(2, -5, 3))
         ) == [Line3D(Point3D(-24, -12, 0), Point3D(-25, -13, -1))]
+    assert pl6.intersection(Line3D(Point3D(2, 3, 1), Point3D(1, 3, 4))) == [
+        Point3D(-1, 3, 10)]
     assert pl6.intersection(Ray3D(Point3D(2, 3, 1), Point3D(1, 3, 4))) == [
         Point3D(-1, 3, 10)]
-    assert pl6.intersection(Segment3D(Point3D(2, 3, 1), Point3D(1, 3, 4))) == [
-        Point3D(-1, 3, 10)]
+    assert pl6.intersection(Segment3D(Point3D(2, 3, 1), Point3D(1, 3, 4))) == []
     assert pl7.intersection(Line(Point(2, 3), Point(4, 2))) == [
         Point3D(13/2, 3/4, 0)]
     r = Ray(Point(2, 3), Point(4, 2))

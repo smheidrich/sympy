@@ -291,12 +291,18 @@ class Plane(GeometryEntity):
            t = abs(d/sqrt(a**2 + b**2 + c**2))
            return t
         if isinstance(o, LinearEntity3D):
-            a, b = o.p1, self.p1
-            c = Matrix(a.direction_ratio(b))
-            d = Matrix(self.normal_vector)
-            e = c.dot(d)
-            f = sqrt(sum([i**2 for i in self.normal_vector]))
-            return abs(e / f)
+            if isinstance(o, Segment3D): # TODO unsure about Ray...
+                if self.intersection(o):
+                    return 0
+                else:
+                    return min(self.distance(x) for x in [ o.p1, o.p2 ])
+            else:
+                a, b = o.p1, self.p1
+                c = Matrix(a.direction_ratio(b))
+                d = Matrix(self.normal_vector)
+                e = c.dot(d)
+                f = sqrt(sum([i**2 for i in self.normal_vector]))
+                return abs(e / f)
         if isinstance(o, Plane):
             a, b = o.p1, self.p1
             c = Matrix(a.direction_ratio(b))
